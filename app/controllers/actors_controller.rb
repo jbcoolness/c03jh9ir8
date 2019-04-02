@@ -11,10 +11,14 @@ class ActorsController < ApplicationController
 
     def create
         @actor = Actor.new(actor_params)
-        redirect_to actors_path
+        
+        if @actor.save
+            redirect_to actors_path, notice: "Actor guardado exitosamente"
+        else
+            flash[:alert] = "Actor no ha sido guardado, favor verificar la informacion"
+            reder :index
+        end
     end
-
-
 
 
 
@@ -22,5 +26,4 @@ class ActorsController < ApplicationController
     def actor_params
       params.require(:actor).permit(:name, :bio, :birth_date, :birth_place, :image_url, :death_date, :death_place)
     end
-
 end
